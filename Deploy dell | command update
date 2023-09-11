@@ -1,0 +1,29 @@
+Files that should be in your folder used for Intune Deployment
+
+1. .Bat file for install
+2. MySettings.xml - Settings that automatically check for updates and installs them 24 hour restart deferral twice Export xml file from existing dell command update program
+3. DellCommandUpdateApp.MSI - MSI pulled from the EXE for better intune compatibility
+4. Registry key called from .bat 
+
+
+.BAT
+
+copy "mysettings.xml" "c:\users\public\"
+
+msiexec /i DellCommandUpdateApp.msi /qn
+
+C:\Progra~1\Dell\CommandUpdate\dcu-cli.exe /configure -importsettings=c:\users\public\mysettings.xml
+
+del /f "C:\users\public\mysettings.xml"
+
+reg import dellcommandupdate1.reg
+
+
+
+Registery key
+
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Dell\UpdateService\Clients\CommandUpdate\Preferences\CFG]
+@=""
+"ShowSetupPopup"=dword:00000000
